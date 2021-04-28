@@ -1,8 +1,11 @@
 package com.example.lessgo_android;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.lessgo_android.model.UserBean;
 
@@ -37,5 +40,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             thread.start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0,1,0,"Maps");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == 1){
+            System.out.println("Maps");
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
