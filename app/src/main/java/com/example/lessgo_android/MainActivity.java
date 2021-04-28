@@ -3,6 +3,7 @@ package com.example.lessgo_android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
             // Test appel getPositions()
-            Thread thread = new Thread() {
+            /*Thread thread = new Thread() {
                 @Override
                 public void run() {
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
-            thread.start();
+            thread.start();*/
     }
 
     @Override
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(item.getItemId() == 1){
             System.out.println("Maps");
+            Intent intent = new Intent(this, MapsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
