@@ -59,7 +59,7 @@
         android:id="@+id/etPasswordConfirm"
         android:layout_width="match_parent"
         android:layout_height="33dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="55dp"
         android:gravity="center"
         android:text="confirmer votre mot de passe" />
 
