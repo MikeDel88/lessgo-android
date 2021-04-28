@@ -1,5 +1,6 @@
 package com.example.lessgo_android.model;
 
+//StatutsBean
 public class StatutBean {
 
     private Long statutsId;
