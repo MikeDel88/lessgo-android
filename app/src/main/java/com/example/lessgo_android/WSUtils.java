@@ -1,5 +1,6 @@
 package com.example.lessgo_android;
 
+import com.example.lessgo_android.model.UserBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,19 +27,19 @@ public class WSUtils<listUsers> {
     }
 
     // Post la connexion d'un utilisateur
-    public void loginSubmit(UserBean userBean){
+    public void loginSubmit(UserBean userBean) throws Exception {
         System.out.println("/loginSubmit");
         okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/loginSubmit", gson.toJson(userBean));
     }
 
     // Post l'inscription d'un utilisateur
-    public void registerSubmit(UserBean userBean){
+    public void registerSubmit(UserBean userBean) throws Exception {
         System.out.println("/registerSubmit");
         okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/registerSubmit", gson.toJson(userBean));
     }
 
     // Mets à jour les informations de l'utilisateur
-    public void updateUser(UserBean userBean){
+    public void updateUser(UserBean userBean) throws Exception {
         System.out.println("/updateUser");
         okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/updateUser", gson.toJson(userBean));
 
