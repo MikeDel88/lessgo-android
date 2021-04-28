@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 public class WSUtils<listUsers> {
 
-    private static String URL_REQUETE = "http://86.250.106.223:8080/";
-    private static Gson gson = new Gson();
-    private static ArrayList<UserBean> listUsers = new ArrayList<UserBean>();
+    private static final String URL_REQUETE = "http://86.250.106.223:8080/";
+    private static final Gson gson = new Gson();
+
 
     // Récupère les positions des utilisateurs et renvoi la liste
     public ArrayList<UserBean> getPositions() throws Exception {
@@ -19,7 +19,10 @@ public class WSUtils<listUsers> {
 
         // Envoi de la requête
         String response = okhttpUtils.sendGetOkHttpRequest(URL_REQUETE + "/getPositions");
-        return listUsers.add(gson.fromJson(response, UserBean.class));
+        if(response == null){
+            throw new Exception("Aucune position");
+        }
+        return gson.fromJson(response, new TypeToken<ArrayList<UserBean>>(){}.getType());
     }
 
     // Post la connexion d'un utilisateur
