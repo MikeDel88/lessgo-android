@@ -1,5 +1,7 @@
 package com.example.lessgo_android;
 
+import com.example.lessgo_android.model.ErrorBean;
+
 import okhttp3.*;
 
 public class okhttpUtils {
@@ -12,6 +14,11 @@ public class okhttpUtils {
         Request request = new Request.Builder().url(url).build(); //Execution de la requête
         Response response = client.newCall(request).execute(); //Analyse du code retour
         if (response.code() < 200 || response.code() > 299) {
+            String res = response.body().string();
+            if(res.contains("\"message\"")){
+                ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
+                throw new Exception("Réponse du serveur incorrect : " + error.message);
+            }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         } else {
             //Résultat de la requete.
@@ -28,6 +35,11 @@ public class okhttpUtils {
         Request request = new Request.Builder().url(url).post(body).build(); //Execution de la requête
         Response response = client.newCall(request).execute(); //Analyse du code retour
         if (response.code() < 200 || response.code() > 299) {
+            String res = response.body().string();
+            if(res.contains("\"message\"")){
+                ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
+                throw new Exception("Réponse du serveur incorrect : " + error.message);
+            }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         }
         else {
