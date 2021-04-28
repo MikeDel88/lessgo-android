@@ -30,7 +30,7 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
-        etUpdatePseudo.findViewById("etUpdatePseudo");
+        /*etUpdatePseudo.findViewById("etUpdatePseudo");
         btUpdatePseudo.findViewById("btUpdatePseudo");
         rgStatuts.findViewById("rgStatuts");
         rdOnline.findViewById("rdOnline");
@@ -38,7 +38,7 @@ public class ProfilActivity extends AppCompatActivity implements View.OnClickLis
         rdOffline.findViewById("rdOffline");
         cbOtherTeam.findViewById("cbOtherTeam");
 
-        btUpdatePseudo.setOnClickListener(this);
+        btUpdatePseudo.setOnClickListener(this);*/
     }
 
     @Override
