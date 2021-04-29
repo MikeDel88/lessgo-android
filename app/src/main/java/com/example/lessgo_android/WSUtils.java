@@ -1,12 +1,17 @@
 package com.example.lessgo_android;
 
+import android.content.Intent;
+
 import com.example.lessgo_android.model.UserBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class WSUtils {
 
@@ -26,7 +31,12 @@ public class WSUtils {
     // Post la connexion d'un utilisateur
     public static void loginSubmit(UserBean userBean) throws Exception {
         System.out.println("/loginSubmit");
-        okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/loginSubmit", gson.toJson(userBean));
+        System.out.println(userBean); // Ref objet envoyé
+        String response = okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/loginSubmit", gson.toJson(userBean));
+
+        // TODO Mettre IdSession de la requête dans userBean
+        UserBean userBeanRecu = gson.fromJson(response, UserBean.class);
+        userBean.setIdSession(userBeanRecu.getIdSession());
     }
 
     // Post l'inscription d'un utilisateur

@@ -1,13 +1,36 @@
 package com.example.lessgo_android.model;
 
-public class UserBean {
+import android.text.Editable;
+
+import java.io.Serializable;
+
+public class UserBean implements Serializable {
     private Long usersId;
+    private String idSession;
     private String pseudo;
     private String password;
     private Double lat;
     private Double lon;
     private Boolean otherTeam;
     private StatutBean statuts;
+
+    public UserBean(){
+    }
+
+    // Constructeur pour le login
+    public UserBean(String pseudo, String password){
+        this.pseudo = pseudo;
+        this.password = password;
+    }
+
+    public String getIdSession() {
+        return idSession;
+    }
+
+    public void setIdSession(String idSession) {
+        this.idSession = idSession;
+    }
+
 
     public Long getUsersId() {
         return usersId;
