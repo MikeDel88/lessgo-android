@@ -42,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         user = (UserBean) getIntent().getSerializableExtra("User");
         //demande permission
@@ -139,23 +140,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                }
-                mMap.clear();
-                    for(UserBean u : listOfUsers){
+        runOnUiThread(() -> {
+            if (ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(true);
+            }
+            mMap.clear();
 
-                        if(u.getLat() != null && u.getLon() != null){
-                            MarkerOptions markerUser = new MarkerOptions();
-                            markerUser.position(new LatLng(u.getLat(),u.getLon()));
-                            markerUser.title(u.getPseudo());
-                            mMap.addMarker(markerUser);
-                        }
-                }
+                for(UserBean u : listOfUsers){
+                    if(u.getLat() != null || u.getLon() != null){
+                        MarkerOptions markerUser = new MarkerOptions();
+                        markerUser.position(new LatLng(u.getLat(),u.getLon()));
+                        markerUser.title(u.getPseudo());
+                        mMap.addMarker(markerUser);
+                    }
             }
         });
     }
