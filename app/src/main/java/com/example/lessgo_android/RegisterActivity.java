@@ -55,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 error.message = e.getMessage();
-                                // TODO Affiche erreur retour base de données
                             }
                             runOnUiThread(() -> {
                                 if(user.getIdSession() != null){
@@ -68,12 +67,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     };
                     t.start();
                 }else{
-                    // TODO Affiche Erreur les password ne correspondent pas
                     error.message = "Les mots de passe ne correspondent pas";
                     System.out.println("PASSWORD KO");
                 }
             }else{
-                // TODO Affiche Erreur champs vide
                 error.message = "Champs vides";
                 System.out.println("CHAMPS KO");
             }
