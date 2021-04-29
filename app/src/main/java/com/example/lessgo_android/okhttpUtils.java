@@ -16,8 +16,7 @@ public class okhttpUtils {
             String res = response.body().string();
             if(res.contains("\"message\"")){
                 ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
-                throw new Exception("Réponse du serveur incorrect : " + error.message);
-                //TODO Afficher l'erreur pour l'utilisateur
+                throw new Exception(error.message);
             }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         } else {
@@ -38,8 +37,7 @@ public class okhttpUtils {
             String res = response.body().string();
             if(res.contains("\"message\"")){
                 ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
-                throw new Exception("Réponse du serveur incorrect : " + error.message);
-                //TODO Afficher l'erreur pour l'utilisateur
+                throw new Exception(error.message);
             }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         }

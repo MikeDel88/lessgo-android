@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 System.out.println("CONNEXION OK");
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                // TODO Affiche erreur connexion
                                 error.message = e.getMessage();
                             }
                             runOnUiThread(() -> {
@@ -75,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     };
                     t.start();
                 }else{
-                    // TODO Affichage erreur champs manquant
                     error.message = "Champs vides";
                     System.out.println("Champs manquant");
                 }
