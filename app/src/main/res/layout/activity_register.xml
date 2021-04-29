@@ -36,6 +36,7 @@
         android:foregroundGravity="center"
         android:gravity="center"
         android:text="INSCRIPTION"
+        android:textColor="#0E0000"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -78,7 +79,7 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btRegidter"
+        android:id="@+id/btRegister"
         android:layout_width="166dp"
         android:layout_height="50dp"
         android:layout_gravity="center"

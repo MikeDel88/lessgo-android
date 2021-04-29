@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:addStatesFromChildren="false"
     android:background="#B2DFDB"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -33,15 +34,29 @@
         android:layout_gravity="center"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
+
+    <EditText
         android:id="@+id/etUpdatePseudo"
-        android:layout_width="313dp"
+        android:layout_width="322dp"
         android:layout_height="36dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="#6FFFFFFF"
+        android:layout_marginTop="40dp"
+        android:autoText="false"
+        android:background="#6DFFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        android:backgroundTintMode="add"
+        android:cursorVisible="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:elegantTextHeight="false"
+        android:ems="10"
+        android:enabled="false"
         android:gravity="center"
-        android:text="modifier mon pseudo" />
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text="modifier mon pseudo"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Button
         android:id="@+id/btUpdatePseudo"
@@ -64,21 +79,23 @@
         tools:layout_margin="25dp">
 
         <RadioGroup
+            android:id="@+id/rgStatuts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="170dp"
+            android:layout_weight="1">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/rbOnline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:width="150dp"
                 android:text="en ligne"
                 tools:gravity="center" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/rbBusy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -88,7 +105,7 @@
                 tools:gravity="center" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/rbOffline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -97,18 +114,24 @@
                 android:text="inactif"
                 tools:gravity="center" />
 
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="197dp"
+                android:id="@+id/cbOtherTeam"
+                android:layout_width="181dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:width="250dp"
+                android:layout_marginTop="40dp"
                 android:gravity="center"
-                android:text="autre equipe"
-                android:textSize="18sp" />
+                android:text="autre équipe" />
+        </LinearLayout>
 
-        </RadioGroup>
     </LinearLayout>
 
 </LinearLayout>
