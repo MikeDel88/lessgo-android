@@ -39,34 +39,54 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
+    <EditText
         android:id="@+id/etRegisterPseudo"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="322dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="#6DFFFFFF"
+        android:backgroundTint="#00FFFFFF"
+        android:backgroundTintMode="add"
+        android:ems="10"
         android:gravity="center"
+        android:inputType="textPersonName"
         android:text="saisir votre pseudo" />
 
-    <TextView
+    <EditText
         android:id="@+id/etRegisterPassword"
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
         android:layout_marginTop="50dp"
+        android:background="#6DFFFFFF"
+        android:backgroundTintMode="add"
+        android:ems="10"
         android:gravity="center"
-        android:text="saisir votre mot de passe" />
+        android:inputType="textPassword" />
 
-    <TextView
+    <EditText
         android:id="@+id/etPasswordConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="33dp"
-        android:layout_marginTop="55dp"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="#6DFFFFFF"
+        android:backgroundTintMode="add"
+        android:ems="10"
         android:gravity="center"
-        android:text="confirmer votre mot de passe" />
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="s'inscrire" />
+        android:id="@+id/btRegidter"
+        android:layout_width="166dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="#48FFFFFF"
+        android:cursorVisible="true"
+        android:gravity="center"
+        android:text="s'inscrire"
+        android:textColor="#63090000"
+        android:textStyle="bold" />
 </LinearLayout>
