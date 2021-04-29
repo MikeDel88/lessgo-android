@@ -6,7 +6,6 @@ import okhttp3.*;
 
 public class okhttpUtils {
 
-
     public static String sendGetOkHttpRequest(String url) throws Exception {
         System.out.println("Url : " + url);
         OkHttpClient client = new OkHttpClient();
@@ -18,6 +17,7 @@ public class okhttpUtils {
             if(res.contains("\"message\"")){
                 ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
                 throw new Exception("Réponse du serveur incorrect : " + error.message);
+                //TODO Afficher l'erreur pour l'utilisateur
             }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         } else {
@@ -39,6 +39,7 @@ public class okhttpUtils {
             if(res.contains("\"message\"")){
                 ErrorBean error = WSUtils.gson.fromJson(res, ErrorBean.class);
                 throw new Exception("Réponse du serveur incorrect : " + error.message);
+                //TODO Afficher l'erreur pour l'utilisateur
             }
             throw new Exception("Réponse du serveur incorrect : " + response.code());
         }

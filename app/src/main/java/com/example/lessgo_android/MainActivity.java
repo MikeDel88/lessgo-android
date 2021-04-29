@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("BOUTON LOGIN OK");
             String pseudo = etPseudo.getText().toString();
             String password = etPassword.getText().toString();
+            error.message = "";
 
                 if(!pseudo.equals("") && !password.equals("")){
                     Thread t = new Thread() {
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 // TODO Affiche erreur connexion
+                                error.message = e.getMessage();
                             }
                             runOnUiThread(() -> {
                                 if(user.getIdSession() != null){
@@ -74,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     t.start();
                 }else{
                     // TODO Affichage erreur champs manquant
-                    Toast.makeText(this, "Ceci est un Toast", Toast.LENGTH_LONG).show();
+                    error.message = "Champs vides";
                     System.out.println("Champs manquant");
                 }
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
         }
         if(v == btLienRegister){
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);

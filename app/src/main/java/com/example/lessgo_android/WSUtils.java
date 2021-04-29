@@ -33,7 +33,6 @@ public class WSUtils {
         System.out.println("/loginSubmit");
         String response = okhttpUtils.sendPostOkHttpRequest(URL_REQUETE + "/loginSubmit", gson.toJson(userBean));
 
-        // TODO Mettre IdSession de la requête dans userBean
         UserBean userBeanRecu = gson.fromJson(response, UserBean.class);
         userBean.setIdSession(userBeanRecu.getIdSession());
     }

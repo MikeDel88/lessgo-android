@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lessgo_android.model.ErrorBean;
 import com.example.lessgo_android.model.UserBean;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,6 +19,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etPasswordConfirm;
     private Button btRegister;
     private UserBean user;
+    private ErrorBean error = new ErrorBean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String pseudo = etRegisterPseudo.getText().toString();
             String password = etRegisterPassword.getText().toString();
             String passwordConfirm = etPasswordConfirm.getText().toString();
+            error.message = "";
 
             if(!pseudo.isEmpty() && !password.isEmpty() && !passwordConfirm.isEmpty()){
                 System.out.println("CHAMPS OK");
@@ -51,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 System.out.println("INSCRIPTION OK");
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                error.message = e.getMessage();
                                 // TODO Affiche erreur retour base de données
                             }
                             runOnUiThread(() -> {
@@ -65,14 +69,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     t.start();
                 }else{
                     // TODO Affiche Erreur les password ne correspondent pas
-                    Toast.makeText(this, "Ceci est un Toast", Toast.LENGTH_LONG).show();
+                    error.message = "Les mots de passe ne correspondent pas";
                     System.out.println("PASSWORD KO");
                 }
             }else{
                 // TODO Affiche Erreur champs vide
-                Toast.makeText(this, "Ceci est un Toast", Toast.LENGTH_LONG).show();
+                error.message = "Champs vides";
                 System.out.println("CHAMPS KO");
             }
+            Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
         }
     }
 }
