@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etRegisterPseudo = findViewById(R.id.etRegisterPseudo);
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         etPasswordConfirm = findViewById(R.id.etPasswordConfirm);
-        btRegister = findViewById(R.id.btRegidter);
+        btRegister = findViewById(R.id.btRegister);
 
         btRegister.setOnClickListener(this);
     }
