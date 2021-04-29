@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lessgo_android.model.ErrorBean;
 import com.example.lessgo_android.model.UserBean;
 
 import java.security.SecureRandom;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText etPassword;
     private Button btConnexion;
     private Button btLienRegister;
+    private UserBean user;
+    private ErrorBean error = new ErrorBean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +50,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("BOUTON LOGIN OK");
             String pseudo = etPseudo.getText().toString();
             String password = etPassword.getText().toString();
-            try {
+
                 if(!pseudo.equals("") && !password.equals("")){
                     Thread t = new Thread() {
                         public void run() {
-                            UserBean user = new UserBean(pseudo, password);
+                            user = new UserBean(pseudo, password);
                             try {
                                 WSUtils.loginSubmit(user);
+                                System.out.println("CONNEXION OK");
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                // TODO Affiche erreur connexion
                             }
-                            System.out.println("CONNEXION OK");
-
-                            // Changer de page
-                            // 1er passage user en paramètre
-                            Intent intent = new Intent(MainActivity.this, ProfilActivity.class);
-                            intent.putExtra("User", user);
-                            startActivity(intent);
+                            runOnUiThread(() -> {
+                                if(user.getIdSession() != null){
+                                    Intent intent = new Intent(MainActivity.this, ProfilActivity.class);
+                                    intent.putExtra("User", user);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     };
                     t.start();
                 }else{
-                    Toast.makeText(this," champs manquants", Toast.LENGTH_LONG).show();
-                    throw new Exception("Champs manquants");
+                    // TODO Affichage erreur champs manquant
+                    Toast.makeText(this, "Ceci est un Toast", Toast.LENGTH_LONG).show();
+                    System.out.println("Champs manquant");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         if(v == btLienRegister){
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
