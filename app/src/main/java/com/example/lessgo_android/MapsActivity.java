@@ -1,12 +1,20 @@
 package com.example.lessgo_android;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.example.lessgo_android.model.UserBean;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,10 +22,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
+    private final ArrayList<UserBean> listOfUsers = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +37,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        //demande permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Pas la permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
-        new Thread() {
+        Thread thread = new Thread() {
             @Override
             public void run() {
-                //showPosition();
+                try {
+                    ArrayList<UserBean> temp = WSUtils.getPositions();
+                    listOfUsers.clear();
+                    listOfUsers.addAll(temp);
+                    refreshMap();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //todo mettre a jour message erreur
+                }
             }
-        }.start();*/
+        };
+        thread.start();
+    Thread thread1= new Thread(){
+        @Override
+        public void run() {
+            super.run();
+            Location location = getLocation();
+            while(location == null){
+                location = getLocation();
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            //todo envoyer la localisation au serveur
+        }
+    };
+    thread1.start();
     }
 
     /**
@@ -48,27 +88,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap = googleMap;
+        refreshMap();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] gr) {
-        super.onRequestPermissionsResult(requestCode, permissions, gr);
-//On verifie la réponse
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-//ON a la permission
-        }
-        else {
-//On n'a pas reçu la permission
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        refreshMap();
     }
+
+    public Location getLocation(){
+//Contrôle de la permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_DENIED) {
+            return null;
+        }
+//Récupération du provider (Réseau ou GPS)
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String provider = lm.getBestProvider(new Criteria(), false);
+        if (provider == null) {
+            Toast.makeText(this, "Pas de provider", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+//Récupération de la localisation
+        return lm.getLastKnownLocation(provider);
+
+
+    }
+    public void refreshMap(){
+        if(mMap == null){
+            return;
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                }
+                mMap.clear();
+                    for(UserBean u : listOfUsers){
+                        MarkerOptions markerUser = new MarkerOptions();
+                        markerUser.position(new LatLng(u.getLat(),u.getLon()));
+                        markerUser.title(u.getPseudo());
+                        mMap.addMarker(markerUser);
+
+                }
+            }
+        });
+    }
+
+
+
+
 
 }
