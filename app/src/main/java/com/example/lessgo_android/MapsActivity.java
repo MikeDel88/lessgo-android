@@ -148,8 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 mMap.clear();
                     for(UserBean u : listOfUsers){
-
-                        if(u.getLat() != null && u.getLon() != null){
+                        if(u.getLat() != null || u.getLon() != null){
                             MarkerOptions markerUser = new MarkerOptions();
                             markerUser.position(new LatLng(u.getLat(),u.getLon()));
                             markerUser.title(u.getPseudo());
