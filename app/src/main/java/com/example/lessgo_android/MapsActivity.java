@@ -1,6 +1,7 @@
 package com.example.lessgo_android;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -10,7 +11,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -23,12 +26,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private final ArrayList<UserBean> listOfUsers = new ArrayList<>();
+    private UserBean user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        user = (UserBean) getIntent().getSerializableExtra("User");
         //demande permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Pas la permission
@@ -71,7 +78,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     e.printStackTrace();
                 }
             }
-            //todo envoyer la localisation au serveur
+
+            user.setLat(location.getLatitude());
+            user.setLon(location.getLongitude());
+
+            try {
+                WSUtils.updateUser(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            refreshMap();
         }
     };
     thread1.start();
@@ -99,6 +115,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         refreshMap();
     }
 
+
     public Location getLocation(){
 //Contrôle de la permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -112,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Pas de provider", Toast.LENGTH_SHORT).show();
             return null;
         }
-//Récupération de la localisation
+
         return lm.getLastKnownLocation(provider);
 
 
@@ -131,11 +148,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 mMap.clear();
                     for(UserBean u : listOfUsers){
-                        MarkerOptions markerUser = new MarkerOptions();
-                        markerUser.position(new LatLng(u.getLat(),u.getLon()));
-                        markerUser.title(u.getPseudo());
-                        mMap.addMarker(markerUser);
 
+                        if(u.getLat() != null && u.getLon() != null){
+                            MarkerOptions markerUser = new MarkerOptions();
+                            markerUser.position(new LatLng(u.getLat(),u.getLon()));
+                            markerUser.title(u.getPseudo());
+                            mMap.addMarker(markerUser);
+                        }
                 }
             }
         });
