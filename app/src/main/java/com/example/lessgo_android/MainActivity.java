@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText etPassword;
     private Button btConnexion;
     private Button btLienRegister;
+    private TextView tvError;
     private UserBean user;
     private ErrorBean error = new ErrorBean();
 
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etPassword = findViewById(R.id.etPassword);
         btConnexion = findViewById(R.id.btConnexion);
         btLienRegister = findViewById(R.id.btLienRegister);
+        tvError = findViewById(R.id.tvError);
+
+        showTextError(false);
 
         btConnexion.setOnClickListener(this);
         btLienRegister.setOnClickListener(this);
@@ -61,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 System.out.println("CONNEXION OK");
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                error.message = e.getMessage();
+                                tvError.setText(e.getMessage());
+                                showTextError(true);
                             }
                             runOnUiThread(() -> {
                                 if(user.getIdSession() != null){
@@ -77,11 +82,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     error.message = "Champs vides";
                     System.out.println("Champs manquant");
                 }
-                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
+                showTextError(true);
+                tvError.setText(error.message);
         }
         if(v == btLienRegister){
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
             startActivity(intent);
         }
+    }
+
+    public void showTextError(boolean visibility) {
+        runOnUiThread(() -> {
+            if (visibility) {
+                tvError.setVisibility(View.VISIBLE);
+            } else {
+                tvError.setVisibility(View.GONE);
+            }
+        });
     }
 }

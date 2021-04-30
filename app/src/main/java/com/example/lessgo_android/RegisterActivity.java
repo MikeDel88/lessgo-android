@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etRegisterPassword;
     private EditText etPasswordConfirm;
     private Button btRegister;
+    private TextView tvError;
     private UserBean user;
     private ErrorBean error = new ErrorBean();
 
@@ -29,7 +31,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etRegisterPseudo = findViewById(R.id.etRegisterPseudo);
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         etPasswordConfirm = findViewById(R.id.etPasswordConfirm);
+        tvError = findViewById(R.id.tvError);
         btRegister = findViewById(R.id.btRegister);
+
+        showTextError(false);
 
         btRegister.setOnClickListener(this);
     }
@@ -54,7 +59,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 System.out.println("INSCRIPTION OK");
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                error.message = e.getMessage();
+                                showTextError(true);
+                                tvError.setText(e.getMessage());
                             }
                             runOnUiThread(() -> {
                                 if(user.getIdSession() != null){
@@ -74,7 +80,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 error.message = "Champs vides";
                 System.out.println("CHAMPS KO");
             }
-            Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
+            showTextError(true);
+            tvError.setText(error.message);
         }
+    }
+
+    public void showTextError(boolean visibility) {
+        runOnUiThread(() -> {
+            if (visibility) {
+                tvError.setVisibility(View.VISIBLE);
+            } else {
+                tvError.setVisibility(View.GONE);
+            }
+        });
     }
 }

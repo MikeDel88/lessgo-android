@@ -84,5 +84,18 @@
         android:textColor="#8000796B"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#232323"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
 
 </LinearLayout>
