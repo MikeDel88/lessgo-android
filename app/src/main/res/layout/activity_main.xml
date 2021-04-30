@@ -8,6 +8,7 @@
     android:foregroundGravity="center"
     android:orientation="vertical"
     android:textAlignment="center"
+    android:animateLayoutChanges="true"
     tools:context=".MainActivity">
 
 
@@ -88,6 +89,7 @@
         android:id="@+id/tvError"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:background="#232323"
         android:gravity="center"
         android:padding="10dp"
